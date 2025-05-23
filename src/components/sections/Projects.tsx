@@ -47,7 +47,6 @@ const projects = [
 ];
 
 export default function Projects() {
-  const sectionRef = useRef<HTMLElement>(null);
   const [activeProject, setActiveProject] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -104,21 +103,24 @@ export default function Projects() {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative py-32 md:py-40 bg-[#f0f0f0] text-[#333] overflow-hidden"
-    >
+    <section id="work" className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0]">
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
         {/* Encabezado de la sección */}
-        <div className="mb-20 md:mb-32">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-20 md:mb-32"
+        >
           <div className="flex items-center space-x-4 mb-4">
-            <div className="h-0.5 w-12 bg-[#333]"></div>
-            <span className="text-sm uppercase tracking-wider text-[#333]/70">Proyectos seleccionados</span>
+            <div className="h-0.5 w-12 bg-[#333333]"></div>
+            <span className="text-sm uppercase tracking-wider text-[#333333]/70">Proyectos seleccionados</span>
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-[#333333]">
             Mi trabajo
           </h2>
-        </div>
+        </motion.div>
 
         {/* Imagen flotante tipo carrusel */}
         <div

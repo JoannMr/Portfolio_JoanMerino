@@ -1,35 +1,85 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const connectRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
+  useEffect(() => {
+    if (!sectionRef.current || !titleRef.current || !textRef.current || !imageRef.current || !connectRef.current) return;
 
-  // Efectos de parallax para diferentes elementos
-  const textY = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.2, 1]);
+    // Timeline principal
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        end: "bottom top",
+      }
+    });
+
+    // Animación del título
+    tl.from(titleRef.current.children, {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power3.out"
+    });
+
+    // Animación del texto
+    tl.from(textRef.current.children, {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out"
+    }, "-=0.5");
+
+    // Animación de la sección de conexión
+    tl.from(connectRef.current.children, {
+      y: 20,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power3.out"
+    }, "-=0.5");
+
+    // Animación de la imagen con parallax
+    gsap.to(imageRef.current, {
+      yPercent: -20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    return () => {
+      tl.kill();
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, []);
   
   return (
     <section 
       ref={sectionRef}
-      className="relative py-32 md:py-40 bg-[#f0f0f0] text-[#333333] overflow-hidden"
+      id="about" 
+      className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0] text-[#333333] overflow-hidden"
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
-        {/* Título de sección con animación */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16 md:mb-24"
-        >
+        {/* Título de sección */}
+        <div ref={titleRef} className="mb-16 md:mb-24">
           <div className="flex items-center space-x-4 mb-4">
             <div className="h-0.5 w-12 bg-[#333333]"></div>
             <span className="text-sm uppercase tracking-wider">Sobre mí</span>
@@ -38,16 +88,13 @@ export default function About() {
             Creando experiencias <br className="hidden md:block" />
             web extraordinarias
           </h2>
-        </motion.div>
+        </div>
 
         {/* Contenido principal */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
           {/* Columna de texto */}
-          <motion.div 
-            style={{ y: textY }}
-            className="order-2 md:order-1"
-          >
-            <div className="space-y-8 text-lg md:text-xl">
+          <div className="order-2 md:order-1">
+            <div ref={textRef} className="space-y-8 text-lg md:text-xl">
               <p>
                 Soy un desarrollador web full stack con sede en Barcelona, 
                 especializado en crear experiencias digitales únicas y 
@@ -65,24 +112,25 @@ export default function About() {
               </p>
             </div>
 
-            {/* Estadísticas o habilidades */}
-            <div className="mt-16 grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-5xl font-bold mb-2">3+</h4>
-                <p className="text-sm opacity-70">Años de experiencia</p>
-              </div>
-              <div>
-                <h4 className="text-5xl font-bold mb-2">20+</h4>
-                <p className="text-sm opacity-70">Proyectos completados</p>
+            {/* Nueva sección de conexión minimalista */}
+            <div ref={connectRef} className="mt-16 border-t border-[#333]/10 pt-8">
+              <div className="flex flex-col space-y-4">
+                <p className="text-lg md:text-xl font-light">
+                  ¿Tienes un proyecto en mente?
+                </p>
+                <a 
+                  href="#contact" 
+                  className="group inline-flex items-center text-lg md:text-xl hover:text-[#3B5BFE] transition-colors duration-300"
+                >
+                  <span className="border-b border-current">Hablemos sobre ello</span>
+                  <span className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </a>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Columna de imagen */}
-          <motion.div 
-            style={{ scale: imgScale }}
-            className="order-1 md:order-2 h-[400px] md:h-[600px]"
-          >
+          <div ref={imageRef} className="order-1 md:order-2 h-[400px] md:h-[600px]">
             <div className="relative h-full w-full overflow-hidden">
               <Image
                 src="/images/about.jpg" 
@@ -93,7 +141,7 @@ export default function About() {
               />
               <div className="absolute inset-0 bg-[#333333]/10"></div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

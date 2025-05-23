@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +21,19 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    // Si estamos en la página principal, hacemos scroll
+    if (pathname === '/') {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  };
 
   return (
     <header
@@ -49,27 +64,27 @@ export default function Navbar() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="flex space-x-10"
         >
-          <Link
-            href="/work"
+          <button
+            onClick={() => scrollToSection('work')}
             className="font-dm-sans font-medium text-[15px] hover:text-black/70 transition-colors duration-300"
             style={{ letterSpacing: '-0.01em' }}
           >
             Work
-          </Link>
-          <Link
-            href="/about"
+          </button>
+          <button
+            onClick={() => scrollToSection('about')}
             className="font-dm-sans font-medium text-[15px] hover:text-black/70 transition-colors duration-300"
             style={{ letterSpacing: '-0.01em' }}
           >
             About
-          </Link>
-          <Link
-            href="/contact"
+          </button>
+          <button
+            onClick={() => scrollToSection('contact')}
             className="font-dm-sans font-medium text-[15px] hover:text-black/70 transition-colors duration-300"
             style={{ letterSpacing: '-0.01em' }}
           >
             Contact
-          </Link>
+          </button>
         </motion.nav>
       </div>
     </header>

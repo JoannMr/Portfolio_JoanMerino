@@ -4,6 +4,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { Providers } from "./providers";
 import "@fontsource/dm-sans";
 
 const geistSans = Geist({
@@ -25,6 +26,16 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Joan Merino | Desarrollador Web Full Stack",
   description: "Portfolio de Joan Merino, Desarrollador Web Full Stack",
+  icons: {
+    icon: [
+      {
+        url: '/favicon.svg',
+        type: 'image/svg+xml',
+      },
+    ],
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -35,9 +46,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} font-dm-sans antialiased`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

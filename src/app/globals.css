@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f0f0f0;
+  --foreground: #333333;
+  --primary: #333333;
+  --secondary: #666666;
+  --accent: #888888;
+  --font-dm-sans: 'DM Sans', sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-dm: var(--font-dm-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dm);
+  @apply antialiased overflow-x-hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-dm);
+}
+
+.font-dm-sans {
+  font-family: var(--font-dm);
+}
+
+::selection {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Estilos para el marquee */
+.marquee {
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.marquee__inner {
+  width: fit-content;
+  display: flex;
+  position: relative;
+  white-space: nowrap;
+  padding-left: 4vw;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Animación del marquee cuando no se está haciendo scroll */
+.auto-scroll .marquee__inner {
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+
+/* Estilos para efectos de scroll */
+.parallax {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* Estilos de transición de página */
+.page-transition-enter {
+  opacity: 0;
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transition: opacity 400ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 400ms;
+}
+
+/* Estilos para scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
