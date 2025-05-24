@@ -26,7 +26,7 @@ const projects = [
     description: 'Una marca de bebidas saludables y ecológicas.',
     category: 'Sitio Corporativo',
     year: '2025',
-    image: '/images/bloo.png',
+    image: '/images/Bloo.png',
     link: '/project/bloomi',
   },
   {
@@ -44,7 +44,7 @@ const projects = [
     description: 'Un buscador que proporciona información, imágenes, grados y ubicación en mapa sobre lugares de España.',
     category: 'Aplicación Web',
     year: '2024',
-    image: '/images/descubre-españa.png',
+    image: '/images/Descubre-España.png',
     link: '/project/descubre-espana',
   },
 ];

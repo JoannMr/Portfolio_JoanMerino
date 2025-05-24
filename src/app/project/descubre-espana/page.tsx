@@ -13,7 +13,7 @@ export default function DescubreEspanaPage() {
       role="Desarrollador Full Stack"
       teamSize="1 desarrollador"
       duration="Proyecto académico - 1 semana"
-      mockupImage="/images/descubre-españa.png"
+      mockupImage="/images/Descubre-España.png"
       technologies={[
         "HTML5",
         "CSS3", 

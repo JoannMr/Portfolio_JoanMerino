@@ -13,7 +13,7 @@ export default function BloomiPage() {
       role="Diseñador UI/UX y Desarrollador Frontend"
       teamSize="1 desarrollador"
       duration="1 semana"
-      mockupImage="/images/bloo.png"
+      mockupImage="/images/Bloo.png"
       technologies={[
         "HTML5",
         "Tailwind CSS",
