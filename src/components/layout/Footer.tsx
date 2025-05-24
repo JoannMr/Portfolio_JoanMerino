@@ -32,7 +32,7 @@ export default function Footer() {
             <h5 className="text-sm text-white/50 mb-2">Redes sociales</h5>
             <div className="flex flex-wrap gap-4">
               <Link 
-                href="https://linkedin.com/in/joanmerino"
+                href="https://linkedin.com/in/joan-merino-serrano-5a646324a/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/80 hover:text-white transition-colors"
@@ -40,21 +40,14 @@ export default function Footer() {
                 LinkedIn
               </Link>
               <Link 
-                href="https://github.com/joanmerino"
+                href="https://github.com/JoannMr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/80 hover:text-white transition-colors"
               >
                 GitHub
               </Link>
-              <Link 
-                href="https://twitter.com/joanmerino"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors"
-              >
-                Twitter
-              </Link>
+
             </div>
           </div>
         </div>

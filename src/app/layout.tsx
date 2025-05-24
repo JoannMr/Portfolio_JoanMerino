@@ -4,6 +4,8 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import LoadingScreen from "@/components/layout/LoadingScreen";
+import { LoadingProvider } from "@/contexts/LoadingContext";
 import { Providers } from "./providers";
 import "@fontsource/dm-sans";
 
@@ -46,11 +48,14 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} font-dm-sans antialiased`}>
-        <Providers>
-          <Navbar />
-          {children}
-          <Footer />
-        </Providers>
+        <LoadingProvider>
+          <LoadingScreen />
+          <Providers>
+            <Navbar />
+            {children}
+            <Footer />
+          </Providers>
+        </LoadingProvider>
       </body>
     </html>
   );

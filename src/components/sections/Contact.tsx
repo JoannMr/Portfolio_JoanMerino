@@ -4,6 +4,12 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 export default function Contact() {
+  // URL para Gmail Compose con mensaje precompuesto
+  const handleGmailCompose = () => {
+    const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=joanmerinoserrano@gmail.com&su=${encodeURIComponent('Hola Joan - Contacto desde tu Portfolio')}&body=${encodeURIComponent('Hola Joan,\n\nMe pongo en contacto contigo desde tu portfolio web.\n\n[Escribe tu mensaje aquí]\n\nSaludos!')}`;
+    window.open(gmailComposeUrl, '_blank');
+  };
+
   return (
     <section id="contact" className="min-h-screen bg-gradient-to-b from-[#1C1C1C] to-[#262626] text-white relative overflow-hidden py-32">
       {/* Elementos decorativos de fondo */}
@@ -65,7 +71,7 @@ export default function Contact() {
               <div className="space-y-4">
                 <p className="text-sm uppercase tracking-wider text-white/50">Email</p>
                 <motion.a
-                  href="mailto:joan.merino@gmail.com"
+                  onClick={handleGmailCompose}
                   className="block text-xl hover:text-[#3B5BFE] transition-colors duration-300"
                   whileHover={{ x: 10 }}
                 >
@@ -76,7 +82,7 @@ export default function Contact() {
               <div className="space-y-4">
                 <p className="text-sm uppercase tracking-wider text-white/50">Teléfono</p>
                 <motion.a
-                  href="tel:+34666666666"
+                  href="tel:+34682846006"
                   className="block text-xl hover:text-[#3B5BFE] transition-colors duration-300"
                   whileHover={{ x: 10 }}
                 >
@@ -98,9 +104,9 @@ export default function Contact() {
               viewport={{ once: true }}
               className="relative group"
             >
-              <motion.a
-                href="mailto:joanmerinoserrano@gmail.com"
-                className="flex items-center justify-between px-8 py-6 bg-[#3B5BFE] rounded-2xl text-lg font-medium hover:bg-[#2442E7] transition-all duration-300 group-hover:pr-6"
+              <motion.button
+                onClick={handleGmailCompose}
+                className="flex items-center justify-between px-8 py-6 bg-[#3B5BFE] rounded-2xl text-lg font-medium hover:bg-[#2442E7] transition-all duration-300 group-hover:pr-6 w-full cursor-pointer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -112,7 +118,7 @@ export default function Contact() {
                 >
                   →
                 </motion.span>
-              </motion.a>
+              </motion.button>
               <div className="absolute -inset-1 bg-gradient-to-r from-[#3B5BFE] to-[#2442E7] rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300 -z-10"></div>
             </motion.div>
 

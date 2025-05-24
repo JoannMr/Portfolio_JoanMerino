@@ -5,6 +5,9 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Datos de los proyectos
 const projects = [
@@ -28,7 +31,7 @@ const projects = [
   },
   {
     id: 3,
-    title: 'Velaour&Co eCommerce',
+    title: 'Velaour&Co',
     description: 'Una plataforma de comercio electrónico con integración de pagos.',
     category: 'E-commerce',
     year: '2024',
@@ -52,6 +55,7 @@ export default function Projects() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showImage, setShowImage] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const projectsCount = projects.length;
 
   // Efecto para seguir el cursor
@@ -61,6 +65,45 @@ export default function Projects() {
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Animación del título
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const titleTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: "top 85%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      titleTl
+        .from(".projects-line", {
+          width: 0,
+          duration: 1,
+          ease: "power3.out"
+        })
+        .from(".projects-subtitle", {
+          opacity: 0,
+          y: 30,
+          duration: 0.8,
+          ease: "power3.out"
+        }, "-=0.6")
+        .from(".projects-title-word", {
+          opacity: 0,
+          y: 80,
+          rotationY: 45,
+          transformOrigin: "left center",
+          duration: 1,
+          stagger: 0.2,
+          ease: "power4.out"
+        }, "-=0.5");
+
+    }, titleRef);
+
+    return () => ctx.revert();
   }, []);
 
   // Animación de aparición/desaparición suave
@@ -106,21 +149,16 @@ export default function Projects() {
     <section id="work" className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0]">
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
         {/* Encabezado de la sección */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20 md:mb-32"
-        >
+        <div ref={titleRef} className="mb-20 md:mb-32">
           <div className="flex items-center space-x-4 mb-4">
-            <div className="h-0.5 w-12 bg-[#333333]"></div>
-            <span className="text-sm uppercase tracking-wider text-[#333333]/70">Proyectos seleccionados</span>
+            <div className="projects-line h-0.5 w-12 bg-[#333333]"></div>
+            <span className="projects-subtitle text-sm uppercase tracking-wider text-[#333333]/70">Proyectos seleccionados</span>
           </div>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-[#333333]">
-            Mi trabajo
+            <span className="projects-title-word inline-block">Mi</span>{' '}
+            <span className="projects-title-word inline-block">trabajo</span>
           </h2>
-        </motion.div>
+        </div>
 
         {/* Imagen flotante tipo carrusel */}
         <div

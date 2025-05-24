@@ -1,8 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Datos del tech stack
 const techStack = [
@@ -38,6 +42,7 @@ const techStack = [
 
 export default function TechStack() {
   const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -47,6 +52,52 @@ export default function TechStack() {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animación del título principal
+      const titleTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: "top 85%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      titleTl
+        .from(".tech-line", {
+          width: 0,
+          duration: 0.9,
+          ease: "power3.out"
+        })
+        .from(".tech-subtitle", {
+          opacity: 0,
+          y: 25,
+          duration: 0.7,
+          ease: "power3.out"
+        }, "-=0.5")
+        .from(".tech-title-word", {
+          opacity: 0,
+          y: 60,
+          rotationX: 45,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power4.out"
+        }, "-=0.4")
+        .from(".tech-title-break", {
+          opacity: 0,
+          y: 60,
+          rotationX: 45,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power4.out"
+        }, "-=0.5");
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       ref={sectionRef}
@@ -54,22 +105,24 @@ export default function TechStack() {
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
         {/* Encabezado de la sección */}
-        <motion.div
-          style={{ opacity, scale }}
-          className="mb-16 md:mb-24"
-        >
+        <div ref={titleRef} className="mb-16 md:mb-24">
           <div className="flex items-center space-x-4 mb-4">
-            <div className="h-0.5 w-12 bg-[#333333]"></div>
-            <span className="text-sm uppercase tracking-wider">Tech Stack</span>
+            <div className="tech-line h-0.5 w-12 bg-[#333333]"></div>
+            <span className="tech-subtitle text-sm uppercase tracking-wider">Tech Stack</span>
           </div>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-            Tecnologías que <br className="hidden md:block" />
-            utilizo
+            <span className="tech-title-word inline-block">Tecnologías</span>{' '}
+            <span className="tech-title-word inline-block">que</span>{' '}
+            <br className="hidden md:block" />
+            <span className="tech-title-break inline-block">utilizo</span>
           </h2>
-        </motion.div>
+        </div>
 
         {/* Carrusel de tecnologías */}
-        <div className="relative">
+        <motion.div
+          style={{ opacity, scale }}
+          className="relative"
+        >
           <div className="flex overflow-hidden">
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
@@ -105,7 +158,7 @@ export default function TechStack() {
           {/* Gradientes para el efecto de desvanecimiento */}
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#f0f0f0] to-transparent pointer-events-none"></div>
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#f0f0f0] to-transparent pointer-events-none"></div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

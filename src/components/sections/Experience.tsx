@@ -1,8 +1,11 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ExperienceItem {
   title: string;
@@ -71,7 +74,7 @@ const education: EducationItem[] = [
     institution: "Escuela Profesional Javeriana",
     institutionLogo: "/images/etpxavier.png",
     date: "sept. 2023 - may. 2025",
-    grade: "Nota: 1r: 7.15 - 2n: 9.16",
+    grade: "Nota: 8.16",
     description: "Formación técnica de dos años centrada en el desarrollo web full stack, con especialización en frontend. He trabajado en proyectos prácticos combinando diseño, programación y bases de datos, aplicando metodologías de trabajo reales.",
     keyCompetencies: [
       "Desarrollo de interfaces web responsive y accesibles",
@@ -120,51 +123,228 @@ const education: EducationItem[] = [
 
 export default function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const experienceRef = useRef<HTMLDivElement>(null);
+  const educationRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animación del título principal
+      const titleTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+      titleTl
+        .from(".experience-line", {
+          width: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        })
+        .from(".experience-subtitle", {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: "power3.out"
+        }, "-=0.4")
+        .from(".experience-title", {
+          opacity: 0,
+          y: 50,
+          duration: 1,
+          ease: "power4.out"
+        }, "-=0.3");
+
+      // Animación de la sección de experiencia
+      const expItems = experienceRef.current?.querySelectorAll('.experience-item');
+      if (expItems) {
+        expItems.forEach((item) => {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: item,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse"
+            }
+          });
+
+          // Timeline circle animation
+          tl.from(item.querySelector('.timeline-circle'), {
+            scale: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)"
+          })
+          // Logo animation - Asegurar que se muestre
+          .fromTo(item.querySelector('.company-logo'), {
+            opacity: 0,
+            x: -30,
+            rotation: -5
+          }, {
+            opacity: 1,
+            x: 0,
+            rotation: 0,
+            duration: 0.8,
+            ease: "power3.out"
+          }, "-=0.3")
+          // Header content stagger
+          .from(item.querySelectorAll('.exp-header-content > *'), {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power3.out"
+          }, "-=0.5")
+          // Description
+          .from(item.querySelector('.exp-description'), {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            ease: "power3.out"
+          }, "-=0.3")
+          // Responsibilities stagger
+          .from(item.querySelectorAll('.responsibility-item'), {
+            opacity: 0,
+            x: -20,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "power3.out"
+          }, "-=0.4")
+          // Skills section title
+          .from(item.querySelector('.skills-title'), {
+            opacity: 0,
+            y: 10,
+            duration: 0.5,
+            ease: "power3.out"
+          }, "-=0.3")
+          // Skills animation with stagger
+          .from(item.querySelectorAll('.skill-tag'), {
+            opacity: 0,
+            scale: 0.8,
+            rotation: 5,
+            duration: 0.4,
+            stagger: 0.05,
+            ease: "back.out(1.7)"
+          }, "-=0.2");
+        });
+      }
+
+      // Animación de la sección de educación
+      const eduItems = educationRef.current?.querySelectorAll('.education-item');
+      if (eduItems) {
+        eduItems.forEach((item) => {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: item,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse"
+            }
+          });
+
+          // Timeline básico sin animar las tecnologías (que se muestren por defecto)
+          tl.from(item.querySelector('.timeline-circle'), {
+            scale: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)"
+          })
+          // Logo animation
+          .fromTo(item.querySelector('.institution-logo'), {
+            opacity: 0,
+            x: -30,
+            rotation: 5
+          }, {
+            opacity: 1,
+            x: 0,
+            rotation: 0,
+            duration: 0.8,
+            ease: "power3.out"
+          }, "-=0.3")
+          // Header content stagger
+          .from(item.querySelectorAll('.edu-header-content > *'), {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power3.out"
+          }, "-=0.5")
+          // Description
+          .from(item.querySelector('.edu-description'), {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            ease: "power3.out"
+          }, "-=0.3")
+          // Competencies
+          .from(item.querySelector('.competencies-section'), {
+            opacity: 0,
+            y: 15,
+            duration: 0.6,
+            ease: "power3.out"
+          }, "-=0.4")
+          // Competency items stagger
+          .from(item.querySelectorAll('.competency-item'), {
+            opacity: 0,
+            x: -20,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power3.out"
+          }, "-=0.3")
+          // Final project
+          .from(item.querySelector('.final-project'), {
+            opacity: 0,
+            y: 15,
+            duration: 0.6,
+            ease: "power3.out"
+          }, "-=0.5")
+          // Animación simple para la sección de tecnologías
+          .from(item.querySelector('.skills-categories'), {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            ease: "power3.out"
+          }, "-=0.3");
+
+          // NO animar las tecnologías individuales - dejarlas visibles por defecto
+        });
+      }
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0]">
+    <section ref={sectionRef} id="experience" className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0]">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          style={{ opacity, scale }}
-          className="mb-16"
-        >
+        <div ref={titleRef} className="mb-16">
           <div className="flex items-center space-x-4 mb-4">
-            <div className="h-0.5 w-12 bg-[#333333]"></div>
-            <span className="text-sm uppercase tracking-wider text-[#333333]/70">Trayectoria</span>
+            <div className="experience-line h-0.5 w-12 bg-[#333333]"></div>
+            <span className="experience-subtitle text-sm uppercase tracking-wider text-[#333333]/70">Trayectoria</span>
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-[#333333]">
+          <h2 className="experience-title text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-[#333333]">
             Experiencia y<br />Formación
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Experiencia */}
-          <div>
+          <div ref={experienceRef}>
             <h3 className="text-2xl font-bold mb-8 text-[#333333]">Experiencia</h3>
             <div className="space-y-12">
               {experiences.map((exp, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="relative pl-8 border-l-2 border-[#333333]/20"
+                  className="experience-item relative pl-8 border-l-2 border-[#333333]/20"
                 >
-                  <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-[#333333]" />
+                  <div className="timeline-circle absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-[#333333]" />
                   
                   {/* Header con logo */}
-                  <div className="flex items-start gap-4">
+                  <div className="exp-header flex items-start gap-4">
                     {exp.companyLogo && (
-                      <div className="relative w-12 h-12 rounded-md overflow-hidden bg-white/5 hover:bg-white/10 transition-all duration-300 ease-in-out border border-[#333333]/10 hover:border-[#333333]/20 group">
+                      <div className="company-logo relative w-16 h-16 md:w-12 md:h-12 rounded-md overflow-hidden bg-white/5 hover:bg-white/10 transition-all duration-300 ease-in-out border border-[#333333]/10 hover:border-[#333333]/20 group">
                         <Image
                           src={exp.companyLogo}
                           alt={exp.company}
@@ -173,7 +353,7 @@ export default function Experience() {
                         />
                       </div>
                     )}
-                    <div>
+                    <div className="exp-header-content">
                       <h4 className="text-xl font-bold text-[#333333]">{exp.title}</h4>
                       <p className="text-lg text-[#333333]/80">{exp.company}</p>
                       <p className="text-sm text-[#333333] font-medium">{exp.type}</p>
@@ -182,11 +362,12 @@ export default function Experience() {
                     </div>
                   </div>
 
-                  <p className="text-base text-[#333333]/80 mt-4">{exp.description}</p>
+                  <p className="exp-description text-base text-[#333333]/80 mt-4">{exp.description}</p>
+                  
                   {exp.responsibilities && (
                     <ul className="mt-4 space-y-3">
                       {exp.responsibilities.map((responsibility, idx) => (
-                        <li key={idx} className="flex items-start">
+                        <li key={idx} className="responsibility-item flex items-start">
                           <span className="mr-2 text-[#333333]">•</span>
                           <span className="text-base text-[#333333]/80">{responsibility}</span>
                         </li>
@@ -196,42 +377,38 @@ export default function Experience() {
                   
                   {/* Skills */}
                   <div className="mt-6">
-                    <h5 className="text-sm font-semibold text-[#333333] mb-3">Tecnologías y herramientas</h5>
+                    <h5 className="skills-title text-sm font-semibold text-[#333333] mb-3">Tecnologías y herramientas</h5>
                     <div className="flex flex-wrap gap-2">
                       {exp.technicalSkills.map((skill, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 text-sm rounded-full bg-[#333333]/10 text-[#333333] hover:bg-[#333333]/20 transition-colors duration-300"
+                          className="skill-tag px-3 py-1 text-sm rounded-full bg-[#333333]/10 text-[#333333] hover:bg-[#333333]/20 transition-colors duration-300"
                         >
                           {skill}
                         </span>
                       ))}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Educación */}
-          <div>
+          <div ref={educationRef}>
             <h3 className="text-2xl font-bold mb-8 text-[#333333]">Formación</h3>
             <div className="space-y-12">
               {education.map((edu, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="relative pl-8 border-l-2 border-[#333333]/20"
+                  className="education-item relative pl-8 border-l-2 border-[#333333]/20"
                 >
-                  <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-[#333333]" />
+                  <div className="timeline-circle absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-[#333333]" />
                   
                   {/* Header con logo */}
-                  <div className="flex items-start gap-4">
+                  <div className="edu-header flex items-start gap-4">
                     {edu.institutionLogo && (
-                      <div className="relative w-12 h-12 rounded-md overflow-hidden bg-white/5 hover:bg-white/10 transition-all duration-300 ease-in-out border border-[#333333]/10 hover:border-[#333333]/20 group">
+                      <div className="institution-logo relative w-20 h-20 md:w-14 md:h-14 rounded-md overflow-hidden bg-white/5 hover:bg-white/10 transition-all duration-300 ease-in-out border border-[#333333]/10 hover:border-[#333333]/20 group">
                         <Image
                           src={edu.institutionLogo}
                           alt={edu.institution}
@@ -240,7 +417,7 @@ export default function Experience() {
                         />
                       </div>
                     )}
-                    <div>
+                    <div className="edu-header-content">
                       <h4 className="text-xl font-bold text-[#333333]">{edu.title}</h4>
                       <p className="text-lg text-[#333333]/80">{edu.institution}</p>
                       <p className="text-sm text-[#333333]/60">{edu.date}</p>
@@ -250,67 +427,58 @@ export default function Experience() {
                     </div>
                   </div>
 
-                  <p className="text-base text-[#333333]/80 mt-4">{edu.description}</p>
+                  <p className="edu-description text-base text-[#333333]/80 mt-4">{edu.description}</p>
 
                   {edu.keyCompetencies && (
-                    <div className="mt-6">
+                    <div className="competencies-section mt-6">
                       <h5 className="text-sm font-semibold text-[#333333] mb-3">Competencias clave</h5>
                       <ul className="space-y-3">
                         {edu.keyCompetencies.map((competency, idx) => (
-                          <motion.li
+                          <li
                             key={idx}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: idx * 0.1 }}
-                            className="flex items-start"
+                            className="competency-item flex items-start"
                           >
                             <span className="mr-2 text-[#333333]">•</span>
                             <span className="text-base text-[#333333]/80">{competency}</span>
-                          </motion.li>
+                          </li>
                         ))}
                       </ul>
                     </div>
                   )}
 
                   {edu.finalProject && (
-                    <div className="mt-6">
+                    <div className="final-project mt-6">
                       <h5 className="text-sm font-semibold text-[#333333] mb-2">Proyecto final</h5>
                       <p className="text-base text-[#333333]/80">{edu.finalProject}</p>
                     </div>
                   )}
 
                   {edu.skillCategories && (
-                    <div className="mt-6">
+                    <div className="skills-categories mt-6">
                       <h5 className="text-sm font-semibold text-[#333333] mb-3">Tecnologías y herramientas</h5>
                       <div className="space-y-4">
                         {edu.skillCategories.map((category, idx) => (
-                          <motion.div
+                          <div
                             key={idx}
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: idx * 0.1 }}
+                            className="skill-category"
                           >
                             <h6 className="text-sm text-[#333333]/70 mb-2">{category.name}</h6>
                             <div className="flex flex-wrap gap-2">
                               {category.skills.map((skill, i) => (
-                                <motion.span
+                                <span
                                   key={i}
-                                  initial={{ opacity: 0, scale: 0.9 }}
-                                  whileInView={{ opacity: 1, scale: 1 }}
-                                  whileHover={{ scale: 1.05 }}
-                                  transition={{ duration: 0.2, delay: i * 0.05 }}
-                                  className="px-3 py-1 text-sm rounded-full bg-[#333333]/10 text-[#333333] hover:bg-[#333333]/20 transition-colors duration-300"
+                                  className="edu-skill-tag px-3 py-1 text-sm rounded-full bg-[#333333]/10 text-[#333333] hover:bg-[#333333]/20 hover:scale-105 transition-all duration-300"
                                 >
                                   {skill}
-                                </motion.span>
+                                </span>
                               ))}
                             </div>
-                          </motion.div>
+                          </div>
                         ))}
                       </div>
                     </div>
                   )}
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

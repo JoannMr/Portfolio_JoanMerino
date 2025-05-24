@@ -17,57 +17,86 @@ export default function About() {
   useEffect(() => {
     if (!sectionRef.current || !titleRef.current || !textRef.current || !imageRef.current || !connectRef.current) return;
 
+    // Limpiar ScrollTriggers existentes
+    ScrollTrigger.getAll().forEach(t => {
+      if (t.trigger === sectionRef.current) {
+        t.kill();
+      }
+    });
+
+    // Establecer estados iniciales explícitos para evitar problemas de navegación
+    gsap.set(titleRef.current.children, { y: 50, opacity: 0 });
+    gsap.set(textRef.current.children, { y: 30, opacity: 0 });
+    gsap.set(connectRef.current.children, { y: 20, opacity: 0 });
+
     // Timeline principal
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top 80%",
         end: "bottom top",
+        toggleActions: "play none none reverse", // Añadido para mejor control
+        refreshPriority: -1, // Prioridad baja para evitar conflictos
       }
     });
 
     // Animación del título
-    tl.from(titleRef.current.children, {
-      y: 50,
-      opacity: 0,
+    tl.to(titleRef.current.children, {
+      y: 0,
+      opacity: 1,
       duration: 1,
       stagger: 0.2,
       ease: "power3.out"
     });
 
     // Animación del texto
-    tl.from(textRef.current.children, {
-      y: 30,
-      opacity: 0,
+    tl.to(textRef.current.children, {
+      y: 0,
+      opacity: 1,
       duration: 0.8,
       stagger: 0.15,
       ease: "power3.out"
     }, "-=0.5");
 
     // Animación de la sección de conexión
-    tl.from(connectRef.current.children, {
-      y: 20,
-      opacity: 0,
+    tl.to(connectRef.current.children, {
+      y: 0,
+      opacity: 1,
       duration: 0.8,
       stagger: 0.1,
       ease: "power3.out"
     }, "-=0.5");
 
-    // Animación de la imagen con parallax
-    gsap.to(imageRef.current, {
-      yPercent: -20,
-      ease: "none",
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
+    // Animación de la imagen con parallax (separada del timeline principal)
+    const parallaxST = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true,
+      onUpdate: (self) => {
+        gsap.to(imageRef.current, {
+          yPercent: -20 * self.progress,
+          duration: 0.3,
+          ease: "none"
+        });
       }
     });
 
+    // Refresh ScrollTrigger después de un breve delay para asegurar el layout
+    const refreshTimeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
     return () => {
+      clearTimeout(refreshTimeout);
       tl.kill();
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      parallaxST.kill();
+      // Limpiar estados para evitar conflictos al navegar (solo si los elementos existen)
+      if (titleRef.current?.children && textRef.current?.children && connectRef.current?.children) {
+        gsap.set([titleRef.current.children, textRef.current.children, connectRef.current.children], {
+          clearProps: "all"
+        });
+      }
     };
   }, []);
   
