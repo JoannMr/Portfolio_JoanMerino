@@ -29,61 +29,61 @@ export default function LoadingScreen() {
     // Marcar que GSAP está listo
     setGsapReady(true);
 
-    // Timeline principal
+    // Timeline principal - tiempos reducidos significativamente
     const tl = gsap.timeline();
 
-    // Animación de entrada sutil
+    // Animación de entrada más rápida y dinámica
     tl.to(dotRef.current, {
       scale: 1,
-      duration: 0.8,
+      duration: 0.4,
       ease: "back.out(1.7)"
     })
     .to(lineRef.current, {
       scaleX: 1,
-      duration: 1.2,
+      duration: 0.6,
       ease: "power3.out"
-    }, "-=0.4")
+    }, "-=0.2")
     .to(nameRef.current.children, {
       y: 0,
       opacity: 1,
-      duration: 1,
-      stagger: 0.08,
+      duration: 0.5,
+      stagger: 0.04,
       ease: "power3.out"
-    }, "-=0.6")
+    }, "-=0.3")
     .to(subtitleRef.current, {
       opacity: 1,
       y: 0,
-      duration: 0.8,
+      duration: 0.4,
       ease: "power3.out"
-    }, "-=0.4")
+    }, "-=0.2")
     
-    // Pausa contemplativa
-    .to({}, { duration: 1.8 })
+    // Pausa mínima para que se vea completo
+    .to({}, { duration: 0.6 })
     
     // Notificar que está listo
     .call(() => {
       setLoadingComplete(true);
     })
     
-    // Pequeña pausa para sincronización
-    .to({}, { duration: 0.2 })
+    // Pausa muy breve para sincronización
+    .to({}, { duration: 0.1 })
     
-    // Salida elegante
+    // Salida más rápida
     .to([nameRef.current, subtitleRef.current, lineRef.current, dotRef.current], {
       opacity: 0,
-      y: -30,
-      duration: 0.8,
-      stagger: 0.1,
+      y: -20,
+      duration: 0.5,
+      stagger: 0.05,
       ease: "power3.in"
     })
     .to(loaderRef.current, {
       opacity: 0,
-      duration: 0.6,
+      duration: 0.4,
       ease: "power3.in",
       onComplete: () => {
         setIsLoading(false);
       }
-    }, "-=0.4");
+    }, "-=0.3");
 
   }, []); // Sin dependencias para evitar re-ejecuciones
 
