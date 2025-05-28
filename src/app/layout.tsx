@@ -8,6 +8,7 @@ import LoadingScreen from "@/components/layout/LoadingScreen";
 import { LoadingProvider } from "@/contexts/LoadingContext";
 import { Providers } from "./providers";
 import "@fontsource/dm-sans";
+import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,6 +57,7 @@ export default function RootLayout({
             <Footer />
           </Providers>
         </LoadingProvider>
+        <Analytics />
       </body>
     </html>
   );
