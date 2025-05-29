@@ -18,7 +18,7 @@ export default function Contact() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#3B5BFE] rounded-full blur-3xl"></div>
           </div>
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20 relative">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20 xl:px-24 2xl:px-32 relative">
         {/* Grid principal */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Columna izquierda */}

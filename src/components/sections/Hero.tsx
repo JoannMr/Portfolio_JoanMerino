@@ -108,27 +108,27 @@ export default function Hero() {
         ease: "back.out(2)"
       }, "-=0.7");
 
-      // Parallax scroll effect
+      // Parallax scroll effect - más sutil
       gsap.to(imageRef.current, {
-        yPercent: 30,
+        yPercent: 20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.2
+        }
+      });
+
+      // Subtle scroll animations for content - más suave
+      gsap.to(titleRef.current, {
+        y: -30,
         ease: "none",
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",
           end: "bottom top",
           scrub: 1.5
-        }
-      });
-
-      // Subtle scroll animations for content
-      gsap.to(titleRef.current, {
-        y: -50,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 2
         }
       });
     };
@@ -232,20 +232,22 @@ export default function Hero() {
         </div>
 
         {/* Título principal */}
-        <div className="relative mt-auto mb-16 flex flex-col w-full overflow-hidden">
-          <div ref={titleRef} className="flex flex-wrap px-6 md:px-12 lg:px-20">
-            <h1 
-              className="text-5xl font-bold leading-[0.9] md:text-7xl lg:text-[120px] xl:text-[160px] tracking-[-0.03em] text-white opacity-0"
-              style={{ transform: 'translateY(150px)', transformOrigin: 'bottom left' }}
-            >
-              Joan
-            </h1>
-            <h1 
-              className="text-5xl font-bold leading-[0.9] md:text-7xl lg:text-[120px] xl:text-[160px] tracking-[-0.03em] text-white ml-4 opacity-0"
-              style={{ transform: 'translateY(150px)', transformOrigin: 'bottom left' }}
-            >
-              Merino
-            </h1>
+        <div className="relative mt-auto mb-16 flex flex-col w-full">
+          <div className="mx-auto w-full max-w-7xl">
+            <div ref={titleRef} className="flex flex-wrap px-6 md:px-12 lg:px-20">
+              <h1 
+                className="text-5xl font-bold leading-[0.9] md:text-7xl lg:text-[120px] xl:text-[160px] tracking-[-0.03em] text-white opacity-0"
+                style={{ transform: 'translateY(150px)', transformOrigin: 'bottom left' }}
+              >
+                Joan
+              </h1>
+              <h1 
+                className="text-5xl font-bold leading-[0.9] md:text-7xl lg:text-[120px] xl:text-[160px] tracking-[-0.03em] text-white ml-4 opacity-0"
+                style={{ transform: 'translateY(150px)', transformOrigin: 'bottom left' }}
+              >
+                Merino
+              </h1>
+            </div>
           </div>
 
           {/* Info inferior */}

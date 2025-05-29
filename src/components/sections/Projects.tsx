@@ -221,8 +221,8 @@ export default function Projects() {
   };
 
   return (
-    <section id="work" className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0]">
-      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
+    <section id="work" className="py-20 bg-[#f0f0f0]">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20 xl:px-24 2xl:px-32">
         {/* Encabezado de la sección */}
         <div ref={titleRef} className="mb-20 md:mb-32">
           <div className="flex items-center space-x-4 mb-4">

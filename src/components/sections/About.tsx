@@ -104,9 +104,9 @@ export default function About() {
     <section 
       ref={sectionRef}
       id="about" 
-      className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0] text-[#333333] overflow-hidden"
+      className="py-20 bg-[#f0f0f0] text-[#333333] overflow-hidden"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20 xl:px-24 2xl:px-32">
         {/* Título de sección */}
         <div ref={titleRef} className="mb-16 md:mb-24">
           <div className="flex items-center space-x-4 mb-4">

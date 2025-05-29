@@ -92,7 +92,7 @@ export default function Navbar() {
           scrolled ? 'py-4' : 'py-6'
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 md:px-12 lg:px-20">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 md:px-12 lg:px-20 xl:px-24 2xl:px-32">
           {/* Logo - solo visible cuando no hay scroll */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}

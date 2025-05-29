@@ -13,7 +13,7 @@ export default function Footer() {
   
   return (
     <footer className="bg-[#1C1C1C] text-white py-12">
-      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20 xl:px-24 2xl:px-32">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Versión */}
           <div>

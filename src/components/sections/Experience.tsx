@@ -317,8 +317,8 @@ export default function Experience() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="experience" className="py-20 px-6 md:px-12 lg:px-20 bg-[#f0f0f0]">
-      <div className="max-w-7xl mx-auto">
+    <section ref={sectionRef} id="experience" className="py-20 bg-[#f0f0f0]">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-20 xl:px-24 2xl:px-32">
         <div ref={titleRef} className="mb-16">
           <div className="flex items-center space-x-4 mb-4">
             <div className="experience-line h-0.5 w-12 bg-[#333333]"></div>
