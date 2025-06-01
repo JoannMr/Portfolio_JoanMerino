@@ -36,6 +36,7 @@ export default function BloomiPage() {
         "Optimización SEO y performance",
         "Deploy automatizado en Vercel"
       ]}
+      githubUrl="https://github.com/JoannMr/bloomi"
     />
   );
 } 

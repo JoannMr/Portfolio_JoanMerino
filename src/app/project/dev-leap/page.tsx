@@ -10,6 +10,7 @@ export default function DevLeapPage() {
       year="2025"
       status="live"
       liveUrl="https://dev-leap.vercel.app/"
+      githubUrl="https://github.com/JoannMr/Dev-Leap"
       role="Diseñador y Desarrollador Full Stack"
       teamSize="1 desarrollador"
       duration="2 meses"

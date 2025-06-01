@@ -10,6 +10,7 @@ export default function DescubreEspanaPage() {
       year="2024"
       status="live"
       liveUrl="https://joannmr.github.io/Descubre-Spain-by-JoannMr/"
+      githubUrl="https://github.com/JoannMr/Descubre-Spain-by-JoannMr"
       role="Desarrollador Full Stack"
       teamSize="1 desarrollador"
       duration="Proyecto académico - 1 semana"

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { gsap } from 'gsap';
-import { ArrowLeft, ExternalLink, Code, Calendar} from 'lucide-react';
+import { ArrowLeft, ExternalLink, Code, Calendar, Github } from 'lucide-react';
 
 interface ProjectPresentationProps {
   projectName: string;
@@ -14,6 +14,7 @@ interface ProjectPresentationProps {
   year: string;
   status: 'live' | 'development' | 'planning' | 'completed';
   liveUrl?: string;
+  githubUrl?: string;
   technologies: string[];
   features: string[];
   mockupImage?: string;
@@ -30,6 +31,7 @@ export default function ProjectPresentation({
   year,
   status,
   liveUrl,
+  githubUrl,
   technologies,
   features,
   mockupImage,
@@ -135,8 +137,9 @@ export default function ProjectPresentation({
               {description}
             </p>
 
-            {liveUrl && (
-              <div className="mt-8">
+            {/* Action Buttons */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              {liveUrl && (
                 <a
                   href={liveUrl}
                   target="_blank"
@@ -146,8 +149,20 @@ export default function ProjectPresentation({
                   <span className="font-medium">Ver proyecto en vivo</span>
                   <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </a>
-              </div>
-            )}
+              )}
+              
+              {githubUrl && (
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-3 px-8 py-4 bg-[#333333] text-white rounded-full hover:bg-[#333333]/90 transition-all duration-300 group"
+                >
+                  <Github className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                  <span className="font-medium">Ver código en GitHub</span>
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Project Info Grid */}
@@ -240,7 +255,7 @@ export default function ProjectPresentation({
       {/* Navigation */}
       <section className="py-12 px-6 md:px-12 lg:px-20 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="project-navigation flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+          <div className="project-navigation flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link
               href="/"
               className="inline-flex items-center space-x-3 px-6 py-3 bg-[#333333] text-white rounded-full hover:bg-[#333333]/90 transition-all duration-300 group"
@@ -258,6 +273,18 @@ export default function ProjectPresentation({
               >
                 <span className="font-medium">Visitar sitio web</span>
                 <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </a>
+            )}
+
+            {githubUrl && (
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-3 px-6 py-3 bg-gray-700 text-white rounded-full hover:bg-gray-800 transition-all duration-300 group"
+              >
+                <Github className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                <span className="font-medium">Ver en GitHub</span>
               </a>
             )}
           </div>
