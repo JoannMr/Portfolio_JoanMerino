@@ -40,11 +40,40 @@ interface EducationItem {
 
 const experiences: ExperienceItem[] = [
   {
+    title: "Desarrollador Front-end Junior",
+    company: "Buzz Marketing Networks",
+    companyLogo: "/images/buzz_marketing_networks_logo.jpg",
+    type: "Jornada Completa",
+    date: "jun. 2025 - actualidad",
+    duration: "5 meses",
+    location: "Barcelona, Cataluña, España · Híbrido",
+    description: "Formo parte del equipo de desarrollo web, centrado en la creación y mantenimiento de interfaces visuales atractivas y funcionales. Mis principales responsabilidades incluyen:",
+    responsibilities: [
+      "Desarrollo de la parte visual de sitios y microsites, asegurando coherencia con la identidad de marca",
+      "Implementación de diseños en código con precisión pixel-perfect",
+      "Optimización del rendimiento y la accesibilidad de las interfaces",
+      "Colaboración estrecha con diseñadores y equipo de marketing para garantizar una experiencia de usuario consistente",
+      "Adaptación y mantenimiento de componentes reutilizables para distintos proyectos"
+    ],
+    technicalSkills: [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "PHP",
+      "React",
+      "WordPress",
+      "Elementor",
+      "GSAP",
+      "Figma"
+    ],
+    softSkills: ["Trabajo en equipo", "Comunicación", "Atención al detalle"]
+  },
+  {
     title: "Desarrollador de front-end",
     company: "Tandem Projects",
     companyLogo: "/images/tandem.png",
     type: "Contrato de prácticas",
-    date: "feb. 2025 - actualidad",
+    date: "feb. 2025 - jun. 2025",
     duration: "4 meses",
     location: "Badalona, Cataluña, España · Presencial",
     description: "Desarrollo y mantenimiento de sitios web corporativos utilizando WordPress y tecnologías modernas. Mis principales responsabilidades incluyen:",
@@ -341,7 +370,7 @@ export default function Experience() {
                 >
                   <div className="timeline-circle absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-[#333333]" />
                   
-                  {/* Header con logo */}
+                  {/* Header con logo */} 
                   <div className="exp-header flex items-start gap-4">
                     {exp.companyLogo && (
                       <div className="company-logo relative w-16 h-16 md:w-12 md:h-12 rounded-md overflow-hidden bg-white/5 hover:bg-white/10 transition-all duration-300 ease-in-out border border-[#333333]/10 hover:border-[#333333]/20 group">
